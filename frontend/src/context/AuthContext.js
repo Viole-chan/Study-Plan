@@ -1,86 +1,88 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { authAPI } from '../api/apiClient';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const register = async (username, email, password) => {
-    setLoading(true);
-    setError(null);
+  useEffect(() => {
+    bootstrapAsync();
+  }, []);
+
+  const bootstrapAsync = async () => {
     try {
-      const res = await authAPI.register(username, email, password);
-      await AsyncStorage.setItem('authToken', res.data.token);
-      await AsyncStorage.setItem('userData', JSON.stringify(res.data.user));
-      setToken(res.data.token);
-      setUser(res.data.user);
-      return res.data;
+      const savedToken = await AsyncStorage.getItem('authToken');
+      const savedUser = await AsyncStorage.getItem('userData');
+      if (savedToken) {
+        setToken(savedToken);
+        setUser(JSON.parse(savedUser));
+      }
     } catch (err) {
-      const message = err.response?.data?.message || 'Registration failed';
-      setError(message);
-      throw err;
+      console.error('Error loading auth:', err);
     } finally {
       setLoading(false);
     }
   };
 
   const login = async (email, password) => {
-    setLoading(true);
-    setError(null);
     try {
-      const res = await authAPI.login(email, password);
-      await AsyncStorage.setItem('authToken', res.data.token);
-      await AsyncStorage.setItem('userData', JSON.stringify(res.data.user));
-      setToken(res.data.token);
-      setUser(res.data.user);
-      return res.data;
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await response.json();
+      if (data.token) {
+        await AsyncStorage.setItem('authToken', data.token);
+        await AsyncStorage.setItem('userData', JSON.stringify(data.user));
+        setToken(data.token);
+        setUser(data.user);
+      }
+      return data;
     } catch (err) {
-      const message = err.response?.data?.message || 'Login failed';
-      setError(message);
       throw err;
-    } finally {
-      setLoading(false);
+    }
+  };
+
+  const register = async (username, email, password) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password })
+      });
+      const data = await response.json();
+      if (data.token) {
+        await AsyncStorage.setItem('authToken', data.token);
+        await AsyncStorage.setItem('userData', JSON.stringify(data.user));
+        setToken(data.token);
+        setUser(data.user);
+      }
+      return data;
+    } catch (err) {
+      throw err;
     }
   };
 
   const logout = async () => {
-    setLoading(true);
     try {
       await AsyncStorage.removeItem('authToken');
       await AsyncStorage.removeItem('userData');
       setToken(null);
       setUser(null);
     } catch (err) {
-      console.error('Logout error:', err);
-    } finally {
-      setLoading(false);
+      console.error('Error logging out:', err);
     }
   };
 
-  const restoreToken = async () => {
-    setLoading(true);
-    try {
-      const token = await AsyncStorage.getItem('authToken');
-      const userData = await AsyncStorage.getItem('userData');
-      if (token && userData) {
-        setToken(token);
-        setUser(JSON.parse(userData));
-      }
-    } catch (err) {
-      console.error('Restore token error:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const value = { user, token, loading, error, register, login, logout, restoreToken };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, token, loading, login, register, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {
