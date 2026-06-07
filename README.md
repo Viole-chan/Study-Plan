@@ -1,70 +1,155 @@
 # Study Plan - Mobile App
 
-**An AI-powered mobile learning companion for students**
+**An AI-powered study companion for students**
 
-## 🚀 Features
+<p align="center">
+  <strong>📚 Scan • Summarize • Learn • Study • Master</strong>
+</p>
 
-✅ **Photo & Note Scanning** - Capture or upload images of notes
-✅ **OCR Text Extraction** - Extract text from images using Google Cloud Vision
-✅ **AI Summarization** - Get concise summaries of your notes
-✅ **AI Tutor** - Learn concepts explained in simple or expanded terms
-✅ **Text-to-Speech** - Listen to your notes, summaries, and tutoring content
-✅ **Flashcard System** - Create and study with interactive flashcards
-✅ **AI Timetable Generator** - Get an optimized study schedule
-✅ **Settings** - Dark/Light mode, Text direction (LTR/RTL), Language support
-✅ **Cross-Device Sync** - All data synced to cloud
+## ✨ Features
 
-## 🛠️ Tech Stack
+### 📸 Photo Scanning
+- Capture notes via camera
+- Upload images from gallery
+- OCR text extraction (Google Cloud Vision)
 
-**Frontend**: React Native + Expo
-**Backend**: Node.js + Express.js + MongoDB
-**AI**: OpenAI GPT-4 (for tutoring, summarization, timetable generation)
-**OCR**: Google Cloud Vision API
-**TTS**: Google Cloud Text-to-Speech
-**Storage**: AWS S3 + MongoDB
+### 🤖 AI-Powered Learning
+- **Summarization**: Get concise summaries of your notes
+- **AI Tutor**: Learn concepts in simple (layman's) or expanded (detailed) terms
+- **Text-to-Speech**: Listen to your content
+- **Timetable Generator**: AI-created study schedules
 
-## 📱 Main Dashboard Buttons
+### 📝 Study Tools
+- Create flashcards from notes
+- Study with interactive cards
+- Track review progress
+- Difficulty levels (Easy, Medium, Hard)
 
-1. **📷 Take Photo** - Open camera to scan notes
-2. **📤 Upload Image** - Upload images from device gallery
-3. **🎓 Make Flashcards** - Create study flashcards
-4. **📚 AI Tutor** - Get AI explanations (simple or expanded terms)
-5. **⚙️ Settings** - Customize theme, text direction, and more
+### ⚙️ Customization
+- 🌓 Dark/Light mode
+- 🔤 Text size adjustment
+- 📖 Text direction (LTR/RTL)
+- 🗣️ Multiple languages
+- 🔊 Text-to-Speech toggle
 
-## 🎓 AI Tutor Feature
+### ☁️ Cloud Sync
+- Sign up and login
+- All data synced across devices
+- Secure authentication
 
-The AI Tutor button allows you to:
-- Enter any text or concept
-- Choose explanation level:
-  - **Simple**: Layman's terms anyone can understand
-  - **Expanded**: Detailed explanation with examples
-- Listen to explanations via text-to-speech
-- Save explanations to your notes
+## 🏗️ Architecture
+
+### Frontend
+- **Framework**: React Native + Expo
+- **Navigation**: React Navigation
+- **State Management**: Context API + AsyncStorage
+- **Styling**: React Native StyleSheet
+
+### Backend
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: MongoDB
+- **Authentication**: JWT
+- **AI**: OpenAI GPT-4
+- **OCR**: Google Cloud Vision
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- Node.js (v16+)
+- MongoDB
+- Expo CLI
+- OpenAI API key
+- Google Cloud Vision key
+
+### Installation
+
+**Backend:**
 ```bash
-# Backend
 cd backend
 npm install
 cp .env.example .env
-# Fill in your API keys in .env
+# Configure .env
 npm run dev
+```
 
-# Mobile (in another terminal)
+**Mobile:**
+```bash
 cd frontend
 npm install
 npm start
 ```
 
-For detailed setup, see [docs/SETUP.md](./docs/SETUP.md)
+## 📖 Documentation
 
-## 📚 Documentation
+- [QUICKSTART.md](./QUICKSTART.md) - Get started in 5 minutes
+- [docs/SETUP.md](./docs/SETUP.md) - Detailed setup guide
+- [docs/API.md](./docs/API.md) - API documentation
+- [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) - Architecture overview
+- [CONTRIBUTING.md](./CONTRIBUTING.md) - Contributing guidelines
 
-- [Setup Guide](./docs/SETUP.md) - Installation & configuration
-- [API Documentation](./docs/API.md) - Complete API reference
-- [Project Structure](./PROJECT_STRUCTURE.md) - Architecture overview
+## 🎯 Use Cases
+
+1. **Students** - Scan textbook pages, get summaries, learn via AI tutor
+2. **Teachers** - Create study materials, generate timetables
+3. **Self-Learners** - Organize notes, review with flashcards
+4. **Language Learners** - Multiple language support, text-to-speech
+
+## 📱 App Screens
+
+1. **Home** - Main dashboard with action buttons
+2. **Camera** - Scan notes and documents
+3. **Notes** - View and manage scanned notes
+4. **AI Tutor** - Get explanations in any complexity level
+5. **Flashcards** - Study with interactive cards
+6. **Timetable** - View AI-generated study schedules
+7. **Settings** - Customize preferences
+
+## 🔐 Security
+
+- Password hashing (bcryptjs)
+- JWT authentication
+- Rate limiting
+- CORS enabled
+- Helmet for security headers
+
+## 📊 Data Models
+
+- **Users** - Profile & preferences
+- **Notes** - Scanned content & summaries
+- **Flashcards** - Q&A cards with difficulty
+- **Timetables** - Study schedules
+
+## 🛠️ Tech Stack
+
+```
+Frontend:           Backend:
+├─ React Native     ├─ Node.js
+├─ Expo             ├─ Express.js
+├─ React Navigation ├─ MongoDB
+├─ AsyncStorage     ├─ JWT
+└─ Axios            ├─ OpenAI
+                    └─ Google Vision
+```
 
 ## 📝 License
 
-MIT
+MIT License - see [LICENSE.md](./LICENSE.md)
+
+## 🤝 Contributing
+
+Contributions welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+## 📞 Support
+
+- 📧 Email: support@studyplan.app
+- 🐛 Issues: [GitHub Issues](https://github.com/Viole-chan/Study-Plan/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/Viole-chan/Study-Plan/discussions)
+
+## 🎉 Version
+
+Study Plan v1.0.0
+
+---
+
+**Made with ❤️ for students everywhere**
